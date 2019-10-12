@@ -8,14 +8,26 @@ public class WizardMovement : MonoBehaviour
     //This script is to set up basic movement for the Wizard
 
     // Necessary
-    float accelRate;                     
     public Vector3 wizardPosition;            
     public Vector3 direction;                 
-    public Vector3 velocity;                 
-    Vector3 acceleration;                
-    Vector3 decceleration;
-    public float angleOfRotation;             
-    float maxSpeed;                      
+    public Vector3 velocity;
+
+    //removed, legacy items, may add later to accelerate the player briefly between zero and max speed
+
+    //Vector3 acceleration;                
+    //Vector3 decceleration;
+    //float accelRate;                     
+
+    Vector3 worldMousePostition;
+    public float angleOfRotation;      
+    [SerializeField]
+    float maxSpeed = 1f;
+
+    Vector3 vectorZero = new Vector3(0, 0, 0);
+    Vector3 W = new Vector3(0f, 1f,0);
+    Vector3 A = new Vector3(-1f, 0f);
+    Vector3 S = new Vector3(0f, -1f);
+    Vector3 D = new Vector3(1f, 0f);
 
     // Use this for initialization
     void Start()
@@ -23,14 +35,13 @@ public class WizardMovement : MonoBehaviour
         wizardPosition = new Vector3(0, 0, -1);     
         direction = new Vector3(1, 0, 0);           
         velocity = new Vector3(0, 0, 0);
-        maxSpeed = 0.1f;
-        accelRate = 0.05f;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        RotateWizard();
+        //RotateWizard();
 
         moveWizard();
 
@@ -43,7 +54,7 @@ public class WizardMovement : MonoBehaviour
     public void SetTransform()
     {
         // Rotate Wizard sprite
-        transform.rotation = Quaternion.Euler(0, 0, angleOfRotation);
+        //transform.rotation = Quaternion.Euler(0, 0, angleOfRotation);
 
         // Set the transform position
         transform.position = wizardPosition;
@@ -54,24 +65,37 @@ public class WizardMovement : MonoBehaviour
     /// </summary>
     public void moveWizard()
     {
-        if (Input.GetKey(KeyCode.W) == true)
-        {
-            // Accelerate
-            // Small vector that's added to velocity every frame
-            acceleration = accelRate * direction;
+        //zero the velocity
+        velocity = vectorZero;
 
-            //add the velocity to the Wizard
-            velocity += acceleration;
-        }
-        else if (Input.GetKey(KeyCode.W) == false)
-        {
-            decceleration = velocity * 0.09f;
 
-            velocity -= decceleration;
+        if (Input.GetKey(KeyCode.W))
+        {
+            //add the up direction
+            velocity += W;
         }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            //add the left direciton
+            velocity += A;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            //add the down direction
+            velocity += S;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            //add the left direciton
+            velocity += D;
+        }
+
+
         // Limit velocity so it doesn't become too large
-        velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
-        wizardPosition += velocity;
+        velocity = velocity.normalized *maxSpeed *Time.deltaTime;
+        wizardPosition = wizardPosition +velocity;
     }
 
     public void RotateWizard()
