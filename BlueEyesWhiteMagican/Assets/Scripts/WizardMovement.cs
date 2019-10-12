@@ -23,11 +23,19 @@ public class WizardMovement : MonoBehaviour
     [SerializeField]
     float maxSpeed = 1f;
 
+    //vectors used in movement
     Vector3 vectorZero = new Vector3(0, 0, 0);
     Vector3 W = new Vector3(0f, 1f,0);
     Vector3 A = new Vector3(-1f, 0f);
     Vector3 S = new Vector3(0f, -1f);
     Vector3 D = new Vector3(1f, 0f);
+    
+
+
+    //used to handle rotation
+    Vector3 mousePos;
+    [SerializeField]
+    GameObject wizardSprite;
 
     // Use this for initialization
     void Start()
@@ -35,13 +43,14 @@ public class WizardMovement : MonoBehaviour
         wizardPosition = new Vector3(0, 0, -1);     
         direction = new Vector3(1, 0, 0);           
         velocity = new Vector3(0, 0, 0);
-        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //RotateWizard();
+        RotateWizard();
 
         moveWizard();
 
@@ -101,17 +110,13 @@ public class WizardMovement : MonoBehaviour
     public void RotateWizard()
     {
         // Player can control direction
-        // Left arrow key = rotate left by 2 degrees
-        // Right arrow key = rotate right by 2 degrees
-        if (Input.GetKey(KeyCode.A))
-        {
-            angleOfRotation += 2;
-            direction = Quaternion.Euler(0, 0, 2) * direction;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            angleOfRotation -= 2;
-            direction = Quaternion.Euler(0, 0, -2) * direction;
-        }
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        direction = wizardPosition - mousePos;
+        angleOfRotation = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg + 90;
+        wizardSprite.transform.localRotation = Quaternion.Euler(0, 0, angleOfRotation);
+
+        
+        
     }
 }
