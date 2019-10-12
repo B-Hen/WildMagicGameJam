@@ -10,6 +10,7 @@ public class fireballManager : MonoBehaviour
     //fields
     public GameObject fireBall;
     WizardMovement wizard;
+    public Vector3 fireballOffset = new Vector3(0,0);
 
     // Start is called before the first frame update
     void Start()
@@ -22,10 +23,10 @@ public class fireballManager : MonoBehaviour
     void Update()
     {
         //check to see that the user has pressed space
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetMouseButtonDown(0))
         {
             //create a new bullet
-            Instantiate(fireBall, wizard.wizardPosition, Quaternion.Euler(0,0, wizard.angleOfRotation -90));
+            Instantiate(fireBall, wizard.wizardPosition, Quaternion.identity);
         }
     }
 }

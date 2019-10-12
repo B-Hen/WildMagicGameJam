@@ -13,6 +13,8 @@ public class FireBall : MonoBehaviour
     float speed = 7f; //how fast the fireball moves
     [SerializeField]
     float duration = 5f;
+    [SerializeField]
+    GameObject sprite;
     Vector3 direction;
     Vector3 velocity;
     Vector3 fireballPosition;
@@ -26,12 +28,12 @@ public class FireBall : MonoBehaviour
         Wizard = GameObject.Find("Wizard").GetComponent<WizardMovement>();
 
         //set the direction of the bullet
-        velocity = -Wizard.direction * speed;
-        fireballPosition = Wizard.wizardPosition;
+        velocity = -Wizard.direction.normalized * speed;
+        fireballPosition = transform.position;
         angle = Wizard.angleOfRotation +90;
 
 
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        sprite.transform.localRotation = Quaternion.Euler(0, 0, angle);
 
        
     }
