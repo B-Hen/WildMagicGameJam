@@ -29,7 +29,9 @@ public class WizardMovement : MonoBehaviour
     Vector3 A = new Vector3(-1f, 0f);
     Vector3 S = new Vector3(0f, -1f);
     Vector3 D = new Vector3(1f, 0f);
-    
+
+    [SerializeField]
+    Camera mainCam;
 
 
     //used to handle rotation
@@ -40,8 +42,8 @@ public class WizardMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        wizardPosition = new Vector3(0, 0, -1);     
-        direction = new Vector3(1, 0, 0);           
+        wizardPosition = transform.position;     
+        direction = new Vector3(0, 0, 0);           
         velocity = new Vector3(0, 0, 0);
 
 
@@ -67,6 +69,7 @@ public class WizardMovement : MonoBehaviour
 
         // Set the transform position
         transform.position = wizardPosition;
+        mainCam.transform.position = wizardPosition;
     }
 
     /// <summary>

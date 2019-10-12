@@ -9,15 +9,15 @@ public class FireBall : MonoBehaviour
 
     //fields
     WizardMovement Wizard;
-    float speed = 0.05f;
+    [SerializeField]
+    float speed = 7f; //how fast the fireball moves
+    [SerializeField]
+    float duration = 5f;
     Vector3 direction;
     Vector3 velocity;
-    float maxSpeed;
     Vector3 fireballPosition;
     float angle;
-    Camera main;
-    float height;
-    float width;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -26,59 +26,33 @@ public class FireBall : MonoBehaviour
         Wizard = GameObject.Find("Wizard").GetComponent<WizardMovement>();
 
         //set the direction of the bullet
-        direction = Wizard.direction;
-        velocity = Wizard.velocity;
+        velocity = -Wizard.direction * speed;
         fireballPosition = Wizard.wizardPosition;
-        maxSpeed = 0.1f;
-        angle = Wizard.angleOfRotation;
-        main = Camera.main;
+        angle = Wizard.angleOfRotation +90;
 
-        height = 2f * main.orthographicSize;
-        width = height * main.aspect;
+
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        duration -= Time.deltaTime;
+
         //call the method to move the bullet
-        movement();
-
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-
+        // Add velocity to vehicle's position
+        fireballPosition += velocity*Time.deltaTime;
         transform.position = fireballPosition;
 
-        //destory the fireball if it is off screen 
-        OffScreen();
-    }
-
-    //method to make the fireball move
-    void movement()
-    {
-        velocity = direction * speed;
-
-        // Limit velocity so it doesn't become too large
-        velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
-
-        // Add velocity to vehicle's position
-        fireballPosition += velocity;
-    }
-
-    //method to check if the fireball is off screen
-    void OffScreen()
-    {
-        //get the min and max of the camera height and width
-        float minX = (width / 2) * -1;
-        float maxX = (width / 2);
-        float minY = (height / 2) * -1;
-        float maxY = (height / 2);
-
-        //check the conditions to sees if off screen
-        if(transform.position.x < minX ||
-            transform.position.x > maxX ||
-            transform.position.y < minY ||
-            transform.position.y > maxY)
+        //destory the fireball if its duration is out
+        if(duration < 0)
         {
             Destroy(gameObject);
         }
     }
+
+
+    
 }

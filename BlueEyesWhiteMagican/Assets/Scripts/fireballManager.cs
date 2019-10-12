@@ -25,7 +25,7 @@ public class fireballManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             //create a new bullet
-            Instantiate(fireBall, wizard.wizardPosition, Quaternion.Euler(0,0, wizard.angleOfRotation));
+            Instantiate(fireBall, wizard.wizardPosition, Quaternion.Euler(0,0, wizard.angleOfRotation -90));
         }
     }
 }
