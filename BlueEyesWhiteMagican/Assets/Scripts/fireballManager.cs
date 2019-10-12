@@ -22,10 +22,10 @@ public class fireballManager : MonoBehaviour
     void Update()
     {
         //check to see that the user has pressed space
-        if(Input.GetKey(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             //create a new bullet
-            Instantiate(fireBall, wizard.wizardPosition, Quaternion.identity);
+            Instantiate(fireBall, wizard.wizardPosition, Quaternion.Euler(0,0, wizard.angleOfRotation));
         }
     }
 }

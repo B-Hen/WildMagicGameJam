@@ -28,6 +28,7 @@ public class FireBall : MonoBehaviour
         //set the direction of the bullet
         direction = Wizard.direction;
         velocity = Wizard.velocity;
+        fireballPosition = Wizard.wizardPosition;
         maxSpeed = 0.1f;
         angle = Wizard.angleOfRotation;
         main = Camera.main;

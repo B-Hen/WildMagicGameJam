@@ -20,7 +20,7 @@ public class WizardMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        wizardPosition = new Vector3(0, 0, 0);     
+        wizardPosition = new Vector3(0, 0, -1);     
         direction = new Vector3(1, 0, 0);           
         velocity = new Vector3(0, 0, 0);
         maxSpeed = 0.1f;
